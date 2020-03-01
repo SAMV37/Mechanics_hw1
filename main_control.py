@@ -1,4 +1,7 @@
-class IntersectionController:
+from random import randrange
+import math
+
+class Intersection:
 
     def __init__(self):
         self.intersectionWidthRange = (5, 21)
@@ -6,12 +9,12 @@ class IntersectionController:
         self.width = 0
         self.yellowLightDuration = 0
 
-    def get_variables_defined_random(self):
+    def define_rand_vars(self):
         self.width = randrange(*self.intersectionWidthRange)
         self.yellowLightDuration = randrange(*self.yellowLightDurationRange)
 
 
-class DecisionController:
+class DesicionMaker:
     
     def __init__(self):
         self.initialSpeed = 0
@@ -22,7 +25,7 @@ class DecisionController:
         self.yellowLightDuration = 0
 
     def make_decision(self, car, intersection):
-        self.initialSpeed = car.initialSpeed
+        self.initialSpeed = car.initSpeed
         self.accelerationPos = car.accelerationPos
         self.accelerationNeg = car.accelerationNeg
         carDistance = car.initDistance
@@ -58,7 +61,7 @@ class DecisionController:
 
 
 
-class CarController:
+class Car:
 
     def __init__(self):
         self.initSpeedRange = (20, 81)
@@ -72,33 +75,32 @@ class CarController:
         self.accelerationNeg = 0
 
 
-    def get_variables_defined_random(self):
+    def define_rand_vars(self):
         self.initSpeed = randrange(*self.initSpeedRange)
         self.initDistance = randrange(*self.initDistanceRange)
         self.accelerationPos = randrange(*self.accelerationPosRange)
         self.accelerationNeg = randrange(*self.accelerationNegRange)
         self.initSpeed = randrange(*self.initSpeedRange)
 
-class MainControl:
+class Main:
 
     def __init__(self):
         # Create Car
-        self.car = CarController()
-        self.intersection = IntersectionController()
-        self.decision_controller = DecisionController()
+        self.car = Car()
+        self.intersection = Intersection()
+        self.decision_controller = DesicionMaker()
 
     # @staticmethod
     def define_variables(self):
-        self.car.get_variables_defined_random()
-        self.intersection.get_variables_defined_random()
+        self.car.define_rand_vars()
+        self.intersection.define_rand_vars()
 
     def make_decision(self):
         return self.decision_controller.make_decision(car=self.car, intersection=self.intersection)
 
 
 if __name__ == "__main__":
-    control = MainControl()
+    control = Main()
     control.define_variables()
     decision = control.make_decision()
     print(decision)
-
